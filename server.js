@@ -3,14 +3,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
 const mongoose = require('mongoose');
-//const OpenAI = require('openai');
 const ChatMessage = require('./models/ChatMessage'); 
 const app = express();
 const port = 3000;
-
-// const openai = new OpenAI({
-//     apiKey: 'your_key', // Replace with your actual API key
-//   });
 
 
 mongoose.connect('mongodb://localhost:27017/chatdb', {
@@ -31,17 +26,6 @@ app.use(cors());
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
-
-// const responses = {
-//     'javascript': 'JavaScript is a high-level, interpreted programming language that is widely used for building web applications.',
-//     'python': 'Python is an interpreted, high-level, general-purpose programming language known for its readability and versatility.',
-//     'java': 'Java is a class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible.',
-//     'typescript': 'TypeScript is a strict syntactical superset of JavaScript that adds optional static typing.',
-//     'ruby': 'Ruby is an interpreted, high-level, general-purpose programming language known for its simplicity and productivity.',
-//     'c#': 'C# is a modern, general-purpose programming language developed by Microsoft. It is widely used for building Windows applications.',
-//     // Add more responses based on programming languages...
-//
-//   };
 
 app.post('/api/chatgpt', async (req, res) => {
   const userMessage = req.body.message;
