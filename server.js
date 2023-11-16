@@ -39,7 +39,7 @@ app.post('/api/chatgpt', async (req, res) => {
       ]
     }, {
       headers: {
-        'Authorization': 'Bearer your_key', // Replace with your actual API key
+        'Authorization': 'Bearer ', // Replace with your actual API key
         'Content-Type': 'application/json'
       }
     });
@@ -55,6 +55,19 @@ app.post('/api/chatgpt', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.json({ message: "I'm sorry, I couldn't retrieve any information at the moment." });
+  }
+});
+
+app.get('/api/chat-history', async (req, res) => {
+  try {
+    // Fetch recent chat messages from MongoDB
+    const recentChats = await ChatMessage.find().sort({ _id: -1 }).limit(10); // Adjust the limit as needed
+
+    // Respond with the chat messages
+    res.json(recentChats);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
  
