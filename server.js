@@ -60,11 +60,11 @@ app.post('/api/chatgpt', async (req, res) => {
 
 app.get('/api/chat-history', async (req, res) => {
   try {
-    // Fetch recent chat messages from MongoDB
-    const recentChats = await ChatMessage.find().sort({ _id: -1 }).limit(10); // Adjust the limit as needed
+    // Fetch recent user chat messages from MongoDB
+    const recentUserChats = await ChatMessage.find({ role: 'user' }).sort({ _id: -1 }).limit(10); // Adjust the limit as needed
 
-    // Respond with the chat messages
-    res.json(recentChats);
+    // Respond with the user chat messages
+    res.json(recentUserChats);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
