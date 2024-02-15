@@ -39,7 +39,7 @@ app.post('/api/chatgpt', async (req, res) => {
       ]
     }, {
       headers: {
-        'Authorization': 'Bearer ', // Replace with your actual API key
+        'Authorization': 'Bearer your_key', // Replace with your actual API key
         'Content-Type': 'application/json'
       }
     });
@@ -70,6 +70,36 @@ app.get('/api/chat-history', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// Fetch full conversation endpoint
+app.get('/api/chat-history/conversation/:conversationId', async (req, res) => {
+  const conversationId = req.params.conversationId;
+
+  try {
+    // Fetch full conversation from MongoDB based on conversation ID
+    const conversation = await ChatMessage.find({ _id: conversationId });
+
+    // Extract messages from the conversation
+    const messages = conversation.map(msg => ({
+      content: msg.content,
+      sender: msg.role,
+      timestamp: msg.timestamp
+    }));
+
+    // Log the response
+    console.log('Conversation data:', messages);
+
+    // Respond with the full conversation
+    res.json(messages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
  
 
 app.listen(port, () => {
